@@ -75,11 +75,12 @@ class Wolf {
 
             case this.STATE_BEAT:
                 this.index++;
-                if (this.index >= 10) {
+                if (this.index >= 9) {
                     this.index = 0;
                     this.state = this.STATE_NORMAL;
                     this.getIndexPos();
                 }
+
                 break;
         }
 
@@ -88,6 +89,7 @@ class Wolf {
     }
 
     onDraw(paint) {
+        console.log(this.index);
         //绘制地图
         paint.drawImage(this.imgHs[this.index], this.arrPos[this.indexPos].x, this.arrPos[this.indexPos].y, this.imgW, this.imgH);
     }
@@ -96,7 +98,7 @@ class Wolf {
             x <= this.arrPos[this.indexPos].x + this.imgW &&
             y >= this.arrPos[this.indexPos].y &&
             y <= this.arrPos[this.indexPos].y + this.imgH) {
-            console.log("Hit!")
+            // console.log("Hit!")
             this.state = this.STATE_BEAT;
             this.index = 5
         }
