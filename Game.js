@@ -2,6 +2,9 @@ class Game {
     constructor(id) {
         //获得画布
         let canvas = document.getElementById(id);
+
+        //设置鼠标点击事件
+        canvas.onmousedown = this.onmousedown.bind(this);
         //获得画笔
         this.paint = canvas.getContext('2d');
 
@@ -10,7 +13,7 @@ class Game {
     }
 
     run() {
-        console.log("游戏运行");
+        // console.log("游戏运行");
         this.gameView.run(this.paint);
     }
 
@@ -19,5 +22,13 @@ class Game {
         setInterval(this.run.bind(this), 200);
     }
 
+    onmousedown(ev) {
+        // console.log(ev);
+        let x = ev.clientX;
+        let y = ev.clientY;
 
+
+        this.gameView.onmousedown(x, y)
+
+    }
 }

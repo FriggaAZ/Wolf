@@ -27,4 +27,8 @@ class GameView {
         paint.drawImage(this.map, 0, 0, 480, 800);
         this.wolf.run(paint);
     }
+
+    onmousedown(x, y) {
+        this.wolf.onmousedown(x, y);
+    }
 }

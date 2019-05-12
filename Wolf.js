@@ -64,6 +64,16 @@ class Wolf {
 
     onDraw(paint) {
         //绘制地图
-        paint.drawImage(this.imgHs[this.index], this.arrPos[this.indexPos].x, this.arrPos[this.indexPos].y, this.imgW, this.imgH);
+        paint.drawImage(this.imgHs[this.index],
+            this.arrPos[this.indexPos].x, this.arrPos[this.indexPos].y, this.imgW, this.imgH);
     }
+    onmousedown(x, y) {
+        if (x >= this.arrPos[this.indexPos].x &&
+            x <= this.arrPos[this.indexPos].x + this.imgW &&
+            y >= this.arrPos[this.indexPos].y &&
+            y <= this.arrPos[this.indexPos].y + this.imgH) {
+            console.log("Hit!")
+        }
+    }
+
 }
