@@ -32,11 +32,18 @@ class Wolf {
             this.imgHs[i].src = imgDataH[i];
         }
 
-        this.imgX = 0;
-        this.imgY = 0;
+        // this.imgX = 0;
+        // this.imgY = 0;
         this.imgW = 108;
         this.imgH = 101;
         this.index = 0;
+
+        this.getIndexPos();
+
+        this.STATE_NORMAL = 0;
+        this.STATE_BEAT = this.STATE_NORMAL + 1;
+        this.state = this.STATE_NORMAL;
+
     }
 
 
@@ -52,20 +59,37 @@ class Wolf {
     }
 
     logic() {
-        this.index++;
-        if (this.index >= 6) {
-            this.index = 0;
 
-            //随机当前位置
-            this.getIndexPos();
+        switch (this.state) {
+            case this.STATE_NORMAL:
+                this.index++;
+                if (this.index >= 6) {
+                    this.index = 0;
+
+                    //随机当前位置
+                    this.getIndexPos();
+                }
+
+                break;
+
+
+            case this.STATE_BEAT:
+                this.index++;
+                if (this.index >= 10) {
+                    this.index = 0;
+                    this.state = this.STATE_NORMAL;
+                    this.getIndexPos();
+                }
+                break;
         }
+
+
 
     }
 
     onDraw(paint) {
         //绘制地图
-        paint.drawImage(this.imgHs[this.index],
-            this.arrPos[this.indexPos].x, this.arrPos[this.indexPos].y, this.imgW, this.imgH);
+        paint.drawImage(this.imgHs[this.index], this.arrPos[this.indexPos].x, this.arrPos[this.indexPos].y, this.imgW, this.imgH);
     }
     onmousedown(x, y) {
         if (x >= this.arrPos[this.indexPos].x &&
@@ -73,6 +97,8 @@ class Wolf {
             y >= this.arrPos[this.indexPos].y &&
             y <= this.arrPos[this.indexPos].y + this.imgH) {
             console.log("Hit!")
+            this.state = this.STATE_BEAT;
+            this.index = 5
         }
     }
 
