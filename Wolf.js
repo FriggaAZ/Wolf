@@ -25,6 +25,18 @@ class Wolf {
             './img/wolf/h6.png',
             './img/wolf/h7.png',
             './img/wolf/h8.png',
+            './img/wolf/h9.png',
+
+            './img/wolf/x0.png',
+            './img/wolf/x1.png',
+            './img/wolf/x2.png',
+            './img/wolf/x3.png',
+            './img/wolf/x4.png',
+            './img/wolf/x5.png',
+            './img/wolf/x6.png',
+            './img/wolf/x7.png',
+            './img/wolf/x8.png',
+            './img/wolf/x9.png'
         ];
         this.imgHs = [];
         for (let i = 0; i < imgDataH.length; i++) {
@@ -43,6 +55,7 @@ class Wolf {
         this.STATE_NORMAL = 0;
         this.STATE_BEAT = this.STATE_NORMAL + 1;
         this.state = this.STATE_NORMAL;
+        this.stateWolf = 0;
 
     }
 
@@ -51,6 +64,17 @@ class Wolf {
         this.indexPos = Math.floor(Math.random() * this.arrPos.length);
     }
 
+    getWolf() {
+        this.stateWolf = Math.floor(Math.random() * 2);
+        switch (this.stateWolf) {
+            case 0: //小灰灰
+                this.index = 10;
+                break;
+            case 1: //灰太狼
+                this.index = 0;
+                break;
+        }
+    }
     run(paint) {
         //业务逻辑
         this.logic();
@@ -62,26 +86,49 @@ class Wolf {
 
         switch (this.state) {
             case this.STATE_NORMAL:
-                this.index++;
-                if (this.index >= 6) {
-                    this.index = 0;
 
-                    //随机当前位置
-                    this.getIndexPos();
+
+                if (this.stateWolf == 0) {
+                    this.index++;
+                    if (this.index >= 16) {
+                        this.index = 10;
+                        this.getIndexPos();
+                        this.getWolf();
+                    }
+                } else if (this.stateWolf == 1) {
+                    this.index++;
+                    if (this.index >= 6) {
+                        this.index = 0;
+                        this.getIndexPos();
+                        this.getWolf();
+                    }
                 }
-
                 break;
-
 
             case this.STATE_BEAT:
-                this.index++;
-                if (this.index >= 9) {
-                    this.index = 0;
-                    this.state = this.STATE_NORMAL;
-                    this.getIndexPos();
-                }
 
+
+                if (this.stateWolf == 0) {
+                    this.index++;
+                    if (this.index >= 20) {
+                        this.state = this.STATE_NORMAL;
+                        //减分
+                        this.getIndexPos();
+                        this.getWolf();
+
+                    }
+                } else if (this.stateWolf == 1) {
+                    this.index++;
+                    if (this.index >= 10) {
+                        this.state = this.STATE_NORMAL;
+                        this.getIndexPos();
+                        this.getWolf();
+                    }
+                }
                 break;
+
+
+
         }
 
 
@@ -100,7 +147,7 @@ class Wolf {
             y <= this.arrPos[this.indexPos].y + this.imgH) {
             // console.log("Hit!")
             this.state = this.STATE_BEAT;
-            this.index = 5
+
         }
     }
 
