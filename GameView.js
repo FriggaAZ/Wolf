@@ -8,6 +8,7 @@ class GameView {
 
         //创建狼
         this.wolf = new Wolf();
+        this.timeView = new TimeView(width, height);
 
     }
 
@@ -26,6 +27,7 @@ class GameView {
         //绘制地图
         paint.drawImage(this.map, 0, 0, 480, 800);
         this.wolf.run(paint);
+        this.timeView.run(paint);
     }
 
     onmousedown(x, y) {

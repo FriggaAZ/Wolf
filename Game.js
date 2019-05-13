@@ -1,20 +1,44 @@
 class Game {
-    constructor(id) {
+    constructor(id, width, height) {
+
+        this.width = width;
+        this.height = height;
+
         //获得画布
         let canvas = document.getElementById(id);
 
         //设置鼠标点击事件
         canvas.onmousedown = this.onmousedown.bind(this);
+        canvas.width = this.width;
+        canvas.height = this.height;
         //获得画笔
         this.paint = canvas.getContext('2d');
 
+        this.STATE_GAME_OVER = 0;
+        this.STATE_GAME_RUN = this.STATE_GAME_OVER + 1;
+
+        this.state = this.STATE_GAME_RUN;
+
         //创建游戏运行页面
-        this.gameView = new GameView();
+        // this.gameView = new GameView();
+        this.initView();
+
+    }
+
+    initView() {
+        switch (this.state) {
+            case this.STATE_GAME_OVER:
+                this.view = new GameOver(this.width, this.height);
+                break;
+            case this.STATE_GAME_RUN:
+                this.view = new GameView(this.width, this.height);
+                break;
+        }
     }
 
     run() {
         // console.log("游戏运行");
-        this.gameView.run(this.paint);
+        this.view.run(this.paint);
     }
 
     start() {
@@ -25,10 +49,10 @@ class Game {
     onmousedown(ev) {
         // console.log(ev);
         let x = ev.clientX;
-        let y = ev.clientY;
+        let y = ev.clientY + document.documentElement.scrollTop;
 
 
-        this.gameView.onmousedown(x, y)
+        this.view.onmousedown(x, y)
 
     }
 }
